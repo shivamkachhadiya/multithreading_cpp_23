@@ -8,4 +8,5 @@ include_directories(.)
 add_executable(multithreading_cpp_23
         firstFile.cpp
         demoanThread.cpp
-        thread_ownership.cpp)
+        thread_ownership.cpp
+        number_of_threads.cpp)
