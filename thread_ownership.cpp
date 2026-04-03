@@ -18,9 +18,10 @@ int main() {
         thread t=thread(print,i);
         workers.push_back(move(t));
     }
-    std::for_each(workers.begin(),workers.end(),[](thread &t) {
-        assert(t.joinable());
-        t.join();
-    });
+    for (thread &t : workers) {
+        if (t.joinable()) {
+            t.join();
+        }
+    }
     return 0;
 }
