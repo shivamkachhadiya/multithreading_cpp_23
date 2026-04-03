@@ -21,8 +21,9 @@ int main() {
         workers.emplace_back(thread(print   ,i));
     }
 
-    for (thread &t : workers) {
+    for (auto &t : workers) {
         if (t.joinable()) {
+//            cout<<"thread id is--->"<<t.get_id()<<endl;
             t.join();
         }
     }
