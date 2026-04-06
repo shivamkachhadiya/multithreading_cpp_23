@@ -1,34 +1,20 @@
-//
-// Created by i on 03-04-2026.
-//
-#include <iostream>
-#include <vector>
+#include<iostream>
+#include <mutex>
 #include <thread>
-#include <chrono>
+
 using namespace std;
-vector<int>shared_data;
-
-void producer() {
-    for (int i=1;i<=100;i++) {
-        shared_data.push_back(i); //not thread safe
-        this_thread::sleep_for(chrono::milliseconds(1)); //producing slowly slowly
-    }
-}
-
-void consumer() {
-    for (int i=1;i<=100;i++) {
-        cout<<"current size: "<<shared_data.size()<<endl; //not thread safe
-        this_thread::sleep_for(chrono::microseconds(500));  //reading fast super fast wrong info loop in speed
+int counter=0;
+//mutex m;
+void increment() {
+    for (int i=0;i<100000;i++) {
+        //lock_guard<mutex>lock(m);
+        counter++;
     }
 }
 int main() {
-    thread t1(producer);
-    thread t2(consumer);
-
+    thread t1(increment);
+    thread t2(increment);
     t1.join();
     t2.join();
-
-    cout<<"final size="<<shared_data.size()<<endl;
-    return 0;
-
+    cout<<"final counter is=>"<<counter<<endl;
 }

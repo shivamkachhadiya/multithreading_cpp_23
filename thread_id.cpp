@@ -1,3 +1,6 @@
+//
+// Created by i on 06-04-2026.
+//
 
 //
 // Created by i on 03-04-2026.
@@ -8,25 +11,24 @@
 #include <mutex>
 #include<vector>
 #include<thread>
-//std::mutex m;
 using namespace std;
+mutex m;
+
 void print(int i) {
     //lock_guard<mutex>lock(m);
+    cout<<"childddddddddddd  thread id is...>"<<this_thread::get_id()<<endl;
     cout<<"i am worker thread no : "<<i<<endl;
+    cout<<"check for multi thread"<<endl;
 }
-
 int main() {
     vector<thread>workers;
-    unsigned long const hardware_threads=thread::hardware_concurrency();
-    cout<<hardware_threads<<endl;
-
-    for (int i=0; i<hardware_threads;i++) {
-        workers.emplace_back(thread(print   ,i));
+    for (int i=0;i<10;i++) {
+        thread t=thread(print,i);
+        cout<<"MAIN thread id is=>"<<t.get_id()<<endl;
+        workers.push_back(move(t));
     }
-
-    for (auto &t : workers) {
+    for (thread &t : workers) {
         if (t.joinable()) {
-//            cout<<"thread id is--->"<<t.get_id()<<endl;
             t.join();
         }
     }
